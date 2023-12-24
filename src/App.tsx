@@ -1,26 +1,42 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import "./App.css";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  Outlet,
+} from "react-router-dom";
+import axios from "axios";
+import { useQuery } from "react-query";
+import Products from "./Products";
+import { Book } from "./types/book";
+import Main from "./pages/main";
+import Search from "./pages/search";
+import Header from "./components/common/Header";
+import Genre from "./pages/genre";
 
-function App() {
+const Layout = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <>
+      <Header />
+      <Outlet />
+    </>
+  );
+};
+const App: React.FC = () => {
+  return (
+    <div className="app">
+      <Router>
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            <Route index element={<Main />} />
+            <Route path="/search" element={<Search />} />
+            <Route path="/:genre" element={<Genre />} />
+          </Route>
+        </Routes>
+      </Router>
     </div>
   );
-}
+};
 
 export default App;
